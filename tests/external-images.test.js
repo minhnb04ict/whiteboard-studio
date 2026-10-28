@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+process.env.DATA_DIR=fs.mkdtempSync(path.join(os.tmpdir(),'wb-external-'));
+const {externalPlan,externalZip,validateExternalSettings}=await import('../src/external-images.js');
+const {save,uid,dir}=await import('../src/store.js');
+const {config}=await import('../src/config.js');
+test('export locks identity/style, uses only earlier scene anchors, respects teaching visuals, and produces a valid self-contained UTF-8 ZIP',()=>{
+ const p={id:uid(),title:'Thỏ và Rùa',contentMode:'explain',style:'black line art',externalVisual:{tool:'gemini',style:'Blue outlines',characters:'Thỏ: tai dài xanh nhạt; Rùa: mai xanh đậm.',environment:'Same hill, finish line on the right, morning light.',negative:'watermark'},visualProfile:{purpose:'explain',styleGuide:'original',characters:[{id:'rabbit',name:'Thỏ',appearance:'blue rabbit',kind:'individual'}]},externalReferences:[{id:'r',file:'ref.png',role:'character',label:'Thỏ mẫu'}],scenes:[{id:'1',title:'Cảnh 1',text:'Thỏ',prompt:'rabbit',cast:[{id:'rabbit',count:1}],image:'first.png'},{id:'2',title:'Cảnh 2',text:'Quy trình',prompt:'two stages',cast:[],visualPlan:{type:'process',goal:'two stages',labels:[]}},{id:'3',title:'Cảnh 3',text:'Thỏ',prompt:'rabbit',image:'future.png'}]};save(p);
+ for(const name of ['ref.png','first.png','future.png'])fs.writeFileSync(path.join(dir(p.id),name),Buffer.from(name));
+ const plan=externalPlan(p);assert.equal(plan.scenes[0].referenceFiles.length,1);assert.ok(plan.scenes[1].referenceFiles.some(r=>r.file==='scene-images/scene-001.png'));assert.ok(!plan.scenes[1].referenceFiles.some(r=>r.file==='scene-images/scene-003.png'));
+ assert.match(plan.scenes[1].prompt,/Blue outlines/);assert.match(plan.scenes[1].prompt,/Thỏ: tai dài/);assert.match(plan.scenes[1].prompt,/GIẢI THÍCH KIẾN THỨC/);assert.match(plan.scenes[1].prompt,/quy trình/);assert.match(plan.scenes[1].prompt,/Same hill/);assert.match(plan.scenes[1].prompt,/ảnh bối cảnh khóa kiến trúc/);assert.ok(!plan.scenes[1].prompt.includes('#F6F1E3'));assert.match(plan.scenes[1].prompt,/không tự dịch sang tiếng Anh/);assert.match(plan.scenes[1].prompt,/NHÂN VẬT XUẤT HIỆN TRONG CẢNH: Không có nhân vật/);assert.equal(plan.environment,'Same hill, finish line on the right, morning light.');
+ const zip=path.join(dir(p.id),'pack.zip');fs.writeFileSync(zip,externalZip(p));
+ const script='import zipfile,json,sys\nwith zipfile.ZipFile(sys.argv[1]) as z:\n assert z.testzip() is None\n d=json.loads(z.read("prompts.json"))\n assert d["title"]=="Thỏ và Rùa"\n assert "tai dài" in z.read("scenes/002.txt").decode()\n assert z.read("references/ref-01.png")==b"ref.png"\n assert "character-reference-prompts.txt" in z.namelist()\n print(len(z.namelist()))';
+ const check=spawnSync(config.python,['-c',script,zip],{encoding:'utf8'});assert.equal(check.status,0,check.stderr);
+ assert.equal(validateExternalSettings({tool:'chatgpt',style:'Nét đen',characters:'Thỏ',environment:'Đồi',negative:''}).tool,'chatgpt');
+ assert.throws(()=>validateExternalSettings({tool:'bad',style:'',characters:'',negative:''}));
+ fs.rmSync(process.env.DATA_DIR,{recursive:true,force:true});
+});

@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {changeSceneDuration} from '../src/scene-duration.js';
+const fixture=()=>({cues:[{startMs:0,endMs:10000,text:'A'},{startMs:10000,endMs:20000,text:'B'}],scenes:[{id:'a',startMs:0,durationMs:10000,annotation:{elements:[{reveal:{startMs:100,durationMs:9400}}]}},{id:'b',startMs:10000,durationMs:10000}]});
+test('duration changes shift later scenes/cues, retime regions, preserve source words',()=>{const p=fixture();changeSceneDuration(p,'a',5500);assert.equal(p.scenes[1].startMs,5500);assert.deepEqual(p.cues.map(c=>[c.startMs,c.endMs,c.text]),[[0,5500,'A'],[5500,15500,'B']]);assert.equal(p.scenes[0].annotation.elements[0].reveal.durationMs,4900);assert.equal(p.sceneTimingEdited,true);});
+test('invalid durations leave project untouched',()=>{for(const n of [0,900,NaN,600001]){const p=fixture(),copy=structuredClone(p);assert.throws(()=>changeSceneDuration(p,'a',n));assert.deepEqual(p,copy);}});

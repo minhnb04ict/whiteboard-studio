@@ -1,0 +1,29 @@
+1
+00:00:00,000 --> 00:00:05,000
+Ngày xửa ngày xùa, sau thảm bại muối mặt ở cuộc thi chạy lần trước, Thỏ vẫn luôn ấm ức. 
+2 
+00:00:05,100 --> 00:00:13,000 Một hôm, gặp Rùa ở bờ hồ, Thỏ hếch mũi bảo: "Rùa này, lần trước là do ta ngủ quên thôi!" 
+3 
+00:00:13,100 --> 00:00:21,500 "Hôm nay ta thách ngươi đua một trận nữa, lần này ta hứa không ngủ, không ăn hoa quả, không thèm nhìn bướm luôn!" 
+4 
+00:00:21,600 --> 00:00:28,500 Rùa điềm nhiên gật đầu: "Được thôi, nhưng lần này đường đua do ta chọn, và phần thưởng là 10 củ cà rốt." 
+5 
+00:00:28,600 --> 00:00:36,000 Thỏ đồng ý ngay lập tức. Rùa dẫn Thỏ đến đỉnh một ngọn đồi rất cao, chỉ xuống chân đồi và bảo: 
+6 
+00:00:36,100 --> 00:00:42,500 "Đích đến là cái cọc gỗ dưới kia. Ta đếm 1, 2, 3 là xuất phát nhé!" 
+7 
+00:00:42,600 --> 00:00:50,000 Thỏ cười khẩy, khởi động chân tay cẩn thận. Rùa vừa hô "Ba!", Thỏ đã lao đi như một mũi tên. 
+8 
+00:00:50,100 --> 00:00:55,500 Thế nhưng, mới chạy được ba bước, Thỏ kinh hãi nhìn sang bên cạnh: 
+9 
+00:00:55,600 --> 00:01:04,000 Rùa ta đã rụt cúp đầu, chân, đuôi vào trong mai, rồi... lăn lông lốc từ trên đồi xuống với tốc độ ánh sáng! 
+10 
+00:01:04,100 --> 00:01:10,000 Chưa đầy 5 giây sau, một tiếng "Bịch!" vang lên ở chân đồi. 
+11 
+00:01:10,100 --> 00:01:17,500 Rùa đã thong thả thò đầu ra khỏi mai, đứng ngay sát cọc gỗ, mỉm cười vẫy tay gọi: 
+12 
+00:01:17,600 --> 00:01:24,000 "Nhanh lên Thỏ ơi, chạy chậm thế! Thua rồi thì trả 10 củ cà rốt đây nào!" 
+13 
+00:01:24,100 --> 00:01:32,000 Thỏ đứng trên đỉnh đồi, há hốc miệng không khép lại được, thầm nghĩ: 
+14 
+00:01:32,100 --> 00:01:40,000 "Đúng là trên đời này, có thông minh đến mấy cũng không lại được với mấy đứa chơi hệ... vật lý!"
